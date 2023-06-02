@@ -15,7 +15,7 @@ import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { NavLink } from 'react-router-dom';
 import { IProduct } from '../../react-app-env';
 import { useDispatch, useSelector } from 'react-redux';
-import { setCurrentProducts, setAllProducts, setError, setAllShops } from '../../store/actions';
+import { setCurrentProducts, setAllProducts, setError, setAllShops, clearCart } from '../../store/actions';
 import { getSelectedCart, getAllProducts, getAllShops } from '../../store/selectors';
 import { getProducts, getShops } from '../../api/api';
 
@@ -28,8 +28,8 @@ export function Header() {
 
   function getProductsByShop(id: number) {
     const filteredByShop: IProduct[] = products.filter(item => item.idshop === id);
+    dispatch(clearCart(undefined));
     dispatch(setCurrentProducts(filteredByShop));
-    console.log(products);
   }
 
   useEffect(() => {

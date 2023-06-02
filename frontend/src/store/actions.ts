@@ -9,6 +9,7 @@ export enum ActionType {
   SET_ALL_PRODUCTS = 'SET_ALL_PRODUCTS',
   SET_ERROR = 'SET_ERROR',
   SET_ALL_SHOPS = 'SET_ALL_SHOPS',
+  CLEAR_CART = 'CLEAR_CART',
 }
 
 export interface ISetSelectedCart {
@@ -46,6 +47,11 @@ export interface ISetAllShops {
   payload: IShops[],
 }
 
+export interface IClearCart {
+  type: ActionType.CLEAR_CART,
+  payload: undefined,
+}
+
 // Action creators - a function returning an action object
 
 export const setSelectedCart = (payload: IObjectForCart): ISetSelectedCart => ({
@@ -80,6 +86,11 @@ export const setError = (payload: string): ISetError => ({
 
 export const setAllShops = (payload: IShops[]): ISetAllShops => ({
   type: ActionType.SET_ALL_SHOPS,
+  payload,
+});
+
+export const clearCart = (payload: undefined): IClearCart => ({
+  type: ActionType.CLEAR_CART,
   payload,
 });
 

@@ -9,6 +9,7 @@ import {
   ISetAllProducts,
   ISetError,
   ISetAllShops,
+  IClearCart
 } from './actions';
 
 // Initial state
@@ -24,7 +25,14 @@ const initialState: IRootState = {
 const rootReducer = (
   state = initialState,
   action:
-    ISetSelectedCart | IDelFromCart | ISetCurrentProducts | ISetQuantity | ISetAllProducts | ISetError | ISetAllShops
+    ISetSelectedCart 
+    | IDelFromCart 
+    | ISetCurrentProducts 
+    | ISetQuantity 
+    | ISetAllProducts 
+    | ISetError 
+    | ISetAllShops 
+    | IClearCart
 ) => {
   switch (action.type) {
     case ActionType.SET_SELECTED_CART:
@@ -69,6 +77,12 @@ const rootReducer = (
       return {
         ...state,
         allShops: [...action.payload],
+      };
+
+    case ActionType.CLEAR_CART:
+      return {
+        ...state,
+        selectedcart: [],
       };
 
     default:
