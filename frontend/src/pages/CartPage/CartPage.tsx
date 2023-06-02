@@ -9,19 +9,20 @@ const API_MAP_KEY = 'AIzaSyAFIWQywSEpFuQrzrCnsDKQbhPLcvt4ANU';
 
 export function CartPage() {
   const shops = useSelector(getAllShops);
-  
+
   const initializeMap = (
-    lat = 50.451486243956545, 
-    lng = 30.523249991641517, 
+    lat = 50.451486243956545,
+    lng = 30.523249991641517,
     place: string
-    ) => {
+  ) => {
     const loader = new Loader({
       apiKey: `${API_MAP_KEY}`,
       version: 'weekly',
+      libraries: ['geometry', 'places'],
     });
-  
+
     loader.load().then(() => {
-      
+
       const map = new google.maps.Map(
         document.getElementById('map') as HTMLElement,
         {
@@ -30,12 +31,76 @@ export function CartPage() {
         }
       );
 
+      const directionsService = new google.maps.DirectionsService();
+      const directionsRenderer = new google.maps.DirectionsRenderer({
+        map: map,
+      });
+
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
       const marker = new google.maps.Marker({
         position: { lat, lng },
         map: map,
         title: `${place}`,
       });
+
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const currentLocation = {
+              lat: position.coords.latitude,
+              lng: position.coords.longitude,
+            };
+
+            const directionsRequest = {
+              origin: currentLocation,
+              destination: { lat, lng },
+              travelMode: google.maps.TravelMode.DRIVING,
+            };
+
+            directionsService.route(
+              directionsRequest,
+              (response, status) => {
+                if (status === google.maps.DirectionsStatus.OK) {
+                  directionsRenderer.setDirections(response);
+                  
+                  if (response && response.routes && response.routes.length > 0) {
+                    const route = response.routes[0];
+                    let distance = 0;
+            
+                    for (let i = 0; i < route.legs.length; i++) {
+                      const leg = route.legs[i];
+                      if (leg.distance && leg.distance.value) {
+                        distance += leg.distance.value;
+                      }
+                    }
+            
+                    if (distance > 0) {
+                      console.log('Дистанція маршруту: ', distance);
+                    } else {
+                      console.log('Дистанція маршруту недоступна.');
+                    }
+                  } else {
+                    console.error('Маршрут не знайдено.');
+                  }
+                } else {
+                  console.error('Не вдалося знайти маршрут. Помилка: ', status);
+                }
+              }
+            );
+            
+            
+            
+            
+            
+          },
+          (error) => {
+            console.error('Помилка отримання поточного місцезнаходження: ', error);
+          }
+        );
+      } else {
+        console.error('Геолокація не підтримується браузером.');
+      }
+
     });
   };
 
@@ -49,7 +114,7 @@ export function CartPage() {
 
   function getTotalValue() {
     const totalValue = currentProductsInCart.reduce((a, x) => a + x.price * x.quantity, 0);
-    return totalValue.toFixed(2); 
+    return totalValue.toFixed(2);
   }
 
   useEffect(() => {
@@ -96,7 +161,7 @@ export function CartPage() {
           <div id="map" className="w-full h-[400px] rounded-3xl">
             {/* <img className="rounded-3xl mb-2 object-cover" src="http://via.placeholder.com/640x640" alt="" /> */}
           </div>
-          
+
           <p className="mt-4 flex items-baseline justify-center gap-x-2">
             <span className="text-base">Total:</span>
             <span className="text-5xl font-bold tracking-tight text-gray-900">${totalValue}</span>
@@ -175,7 +240,6 @@ export function CartPage() {
                 Submit
               </button>
             </div>
-
           </form>
         </div>
       </div>
