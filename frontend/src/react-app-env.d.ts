@@ -23,5 +23,8 @@ export interface IShops {
   id: number,
   name: string, 
   description: string, 
-  href: string, 
+  href: string,
+  iconurl: string,
+  lat: number,
+  lng: number, 
 }

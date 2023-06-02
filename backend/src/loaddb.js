@@ -164,33 +164,51 @@ const products = [
   const shops = [
     { 
       id: 1,
-      name: "ATB", 
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.", 
-      href: "#", 
-      icon: "CursorArrowRaysIcon" 
+      name: "Myastoriya", 
+      description: "М'ясторія - мережа Steak and Grill. Територія відбірних українських стейків! Можна замовити стейки, м'ясо і готові м'ясні страви. М'ясторія - справжнього м'яса територія!", 
+      href: "https://myastoriya.com.ua/ua/", 
+      iconurl: "https://myastoriya.com.ua/local/templates/new/img/fav/favicon-32x32.png",
+      lat: 50.4299540620848, 
+      lng: 30.48681073538455, 
     },
     { 
       id: 2,
-      name: "SortBy", 
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.", 
-      href: "#", 
-      icon: "FingerPrintIcon" 
+      name: "Frozenfood UA", 
+      description: "Frozenfood UA – надійний виробник і постачальник гамбургерів і чизбургеров для роздрібних магазинів і каналу HORECA.", 
+      href: "https://frozenfood.com.ua/", 
+      iconurl: "https://frozenfood.com.ua/wp-content/uploads/2019/12/favic.png",
+      lat: 50.3967261782231, 
+      lng: 30.478711089256752,  
     },
     { 
       id: 3,
-      name: "InterV", 
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.", 
-      href: "#", 
-      icon: "SquaresPlusIcon" 
+      name: "Auchan", 
+      description: "У гіпермаркеті Ашан ви знайдете широкий вибір продуктів харчування, включно зі свіжими овочами та фруктами, молочними продуктами, м'ясом і рибою, солодощами та закусками, а також алкогольними напоями.", 
+      href: "https://auchan.zakaz.ua/uk/", 
+      iconurl: "https://auchan.zakaz.ua/i/favicon/favicon-32x32.png" ,
+      lat: 50.41225870265747, 
+      lng: 30.522155121854574,  
     },
     { 
       id: 4,
-      name: "ToolI", 
-      description: "Lorem ipsum dolor sit amet consectetur adipisicing elit.", 
-      href: "#", 
-      icon: "ArrowPathIcon" 
+      name: "MrGrill", 
+      description: "Mr.Grill — відомий український бренд хот-догів зі справжнього м‘яса. Це смачний та зручний перекус у шаленому ритмі міста. Саме Mr.Grill впровадив культуру споживання хот-догів в Україні.", 
+      href: "https://mrgrill.ua/", 
+      iconurl: "https://mrgrill.ua/favicons/favicon-32x32.png?v=3",
+      lat: 50.45100458987734, 
+      lng: 30.52600993044236, 
+    },
+   { 
+      id: 5,
+      name: "McDonald's", 
+      description: "McDonald's — всесвітньовідомий бренд, який забезпечує смачний, швидкий і зручний перекус у шаленому ритмі міста.", 
+      href: "https://www.mcdonalds.com/ua/uk-ua.html", 
+      iconurl: "https://www.mcdonalds.com/content/dam/sites/ua/nfl/icons/apppageCornerLogo.png",
+      lat: 50.75608955603963, 
+      lng: 25.358397397490076, 
     }
   ]
+  
 
 
 
@@ -217,10 +235,10 @@ async function insertProduct(id, idShop, name, price, discount, imageUrl) {
     await client.query(query);
   };
 
-  async function insertShop(id, name, description, href, icon) {
+  async function insertShop(id, name, description, href, iconurl, lat, lng ) {
     const query = {
-      text: 'INSERT INTO shops (id, name, description, href, iconurl) VALUES ($1, $2, $3, $4, $5)',
-      values: [id, name, description, href, icon]
+      text: 'INSERT INTO shops (id, name, description, href, iconurl, lat, lng) VALUES ($1, $2, $3, $4, $5, $6, $7)',
+      values: [id, name, description, href, iconurl, lat, lng]
     };
   
     await client.query(query);
@@ -228,4 +246,4 @@ async function insertProduct(id, idShop, name, price, discount, imageUrl) {
 
 
 // products.forEach(item => insertProduct(item.id, item.idShop, item.name, item.price, item.discount, item.imageUrl));
-shops.forEach(item => insertShop(item.id, item.name, item.description, item.href, item.icon));
+shops.forEach(item => insertShop(item.id, item.name, item.description, item.href, item.iconurl, item.lat, item.lng));

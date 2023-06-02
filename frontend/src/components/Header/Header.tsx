@@ -3,12 +3,9 @@ import { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react';
 import logo from '../../images/svg/logo.svg';
 import cart from '../../images/svg/cart.svg';
-// import shops from '../../api/shops.json';
-// import products from '../../api/products.json';
 
 import {
   Bars3Icon,
-  ChartPieIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
@@ -53,7 +50,7 @@ export function Header() {
   }, []);
 
   return (
-    <header className="bg-white m-4 rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
+    <header className="m-4 rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
       <nav className="mx-auto flex max-w-7xl items-center justify-between lg:justify-start p-6 lg:px-8" aria-label="Global">
         <div className="flex w-[150px] mr-8">
           <a href="#" className="m-1.5 p-1.5">
@@ -97,7 +94,7 @@ export function Header() {
                       className="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50"
                     >
                       <div className="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
-                        <ChartPieIcon className="h-6 w-6 text-gray-600 group-hover:text-indigo-600" aria-hidden="true" />
+                        <img className="h-6 w-6 text-gray-600 group-hover:text-indigo-600" src={item.iconurl} />
                       </div>
                       <div className="flex-auto">
                         <p className="block cursor-pointer font-semibold text-gray-900" onClick={() => getProductsByShop(item.id)}>

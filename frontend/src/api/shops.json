@@ -1,30 +1,47 @@
 [
   { 
     "id": 1,
-    "name": "ATB", 
-    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit.", 
-    "href": "#", 
-    "icon": "CursorArrowRaysIcon" 
+    "name": "Myastoriya", 
+    "description": "M'ясторія - мережа Steak and Grill. Територія відбірних українських стейків! Можна замовити стейки, м'ясо i готові м'ясні страви. M'ясторія - справжнього м'яса територія!", 
+    "href": "https://myastoriya.com.ua/ua/", 
+    "icon": "https://myastoriya.com.ua/local/templates/new/img/fav/favicon-32x32.png",
+    "lat": 50.4299540620848, 
+    "lng": 30.48681073538455 
   },
   { 
     "id": 2,
-    "name": "SortBy", 
-    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit.", 
-    "href": "#", 
-    "icon": "FingerPrintIcon" 
+    "name": "Frozenfood UA", 
+    "description": "Frozenfood UA - надійний виробник i постачальник гамбургерів i чизбургеров для роздрібних магазинів i каналу HORECA.", 
+    "href": "https://frozenfood.com.ua/", 
+    "icon": "https://frozenfood.com.ua/wp-content/uploads/2019/12/favic.png",
+    "lat": 50.3967261782231, 
+    "lng": 30.478711089256752  
   },
   { 
     "id": 3,
-    "name": "InterV", 
-    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit.", 
-    "href": "#", 
-    "icon": "SquaresPlusIcon" 
+    "name": "Auchan", 
+    "description": "Гіпермаркет Ашан має широкий вибір продуктів харчування, включно зі свіжими овочами та фруктами, молочними продуктами, м'ясом i рибою, солодощами та закусками, a також алкогольними напоями.", 
+    "href": "https://auchan.zakaz.ua/uk/", 
+    "icon": "https://auchan.zakaz.ua/i/favicon/favicon-32x32.png" ,
+    "lat": 50.41225870265747, 
+    "lng": 30.522155121854574  
   },
   { 
     "id": 4,
-    "name": "ToolI", 
-    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit.", 
-    "href": "#", 
-    "icon": "ArrowPathIcon" 
+    "name": "MrGrill", 
+    "description": "Mr.Grill — відомий український бренд хот-догів зі справжнього м'яса. Це смачний та зручний перекус в шаленому ритмі міста. Саме Mr.Grill впровадив культуру споживання хот-догів в Україні.", 
+    "href": "https://mrgrill.ua/", 
+    "icon": "https://mrgrill.ua/favicons/favicon-32x32.png?v=3",
+    "lat": 50.45100458987734, 
+    "lng": 30.52600993044236 
+  },
+ { 
+    "id": 5,
+    "name": "McDonald's", 
+    "description": "McDonald's — всесвітньовідомий бренд, який забезпечує смачний, швидкий i зручний перекус в шаленому ритмі міста.", 
+    "href": "https://www.mcdonalds.com/ua/uk-ua.html", 
+    "icon": "https://www.mcdonalds.com/content/dam/sites/ua/nfl/icons/apppageCornerLogo.png",
+    "lat": 50.75608955603963, 
+    "lng": 25.358397397490076 
   }
 ]

@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@googlemaps/js-api-loader": "^1.15.2",
     "@headlessui/react": "^1.7.14",
     "@heroicons/react": "^2.0.18",
     "@testing-library/jest-dom": "^5.16.5",
@@ -47,6 +48,7 @@
     ]
   },
   "devDependencies": {
+    "@types/google.maps": "^3.53.2",
     "@typescript-eslint/eslint-plugin": "^5.59.8",
     "@typescript-eslint/parser": "^5.59.8",
     "eslint": "^8.41.0",

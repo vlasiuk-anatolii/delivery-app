@@ -2,10 +2,43 @@ import React, { useEffect, useState } from 'react'
 import logo from '../../images/svg/logo.svg';
 import { CardForCart } from '../../components/CardForCart/CardForCart';
 import { useSelector } from 'react-redux';
-import { getSelectedCart } from '../../store/selectors';
+import { getSelectedCart, getAllShops } from '../../store/selectors';
 import { IObjectForCart } from '../../react-app-env';
+import { Loader } from '@googlemaps/js-api-loader';
+const API_MAP_KEY = 'AIzaSyAFIWQywSEpFuQrzrCnsDKQbhPLcvt4ANU';
 
 export function CartPage() {
+  const shops = useSelector(getAllShops);
+  
+  const initializeMap = (
+    lat = 50.451486243956545, 
+    lng = 30.523249991641517, 
+    place: string
+    ) => {
+    const loader = new Loader({
+      apiKey: `${API_MAP_KEY}`,
+      version: 'weekly',
+    });
+  
+    loader.load().then(() => {
+      
+      const map = new google.maps.Map(
+        document.getElementById('map') as HTMLElement,
+        {
+          center: { lat, lng },
+          zoom: 18,
+        }
+      );
+
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const marker = new google.maps.Marker({
+        position: { lat, lng },
+        map: map,
+        title: `${place}`,
+      });
+    });
+  };
+
   const currentProductsInCart = useSelector(getSelectedCart);
   let productsForRender: IObjectForCart[] = [];
   const [totalValue, setTotalValue] = useState('0');
@@ -23,18 +56,24 @@ export function CartPage() {
     setTotalValue(getTotalValue());
   }, [currentProductsInCart]);
 
+  useEffect(() => {
+    const currentShop = shops.find(item => item.id === currentProductsInCart[0].idshop);
+    if (currentShop) {
+      initializeMap(+(currentShop.lat), +(currentShop.lng), currentShop.name);
+    }
+  }, [currentProductsInCart]);
 
   return (
     <>
-      <div className="bg-white p-6 m-4 rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
+      <div className="bg-white p-6 m-4 rounded-3xl shadow-lg ring-1 ring-gray-900/5">
         <a href="#" className="m-1.5 p-1.5">
           <span className="sr-only">VAM</span>
           <img className="h-8 w-auto" src={logo} alt="logo" />
         </a>
       </div>
 
-      <div className="flex flex-wrap justify-center bg-white p-6 m-4 rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
-        <div className="bg-white p-6 m-4 rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
+      <div className="flex flex-wrap justify-center p-6 m-4 rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
+        <div className="p-6 m-4 rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
           {productsForRender.length === 0
             ? <p className="p-6"> Cart is empty!</p>
             : productsForRender.map(item => {
@@ -53,8 +92,10 @@ export function CartPage() {
             })}
         </div>
 
-        <div className="bg-white p-6 m-4 rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
-          <img className="rounded-3xl mb-2 object-cover" src="http://via.placeholder.com/640x640" alt="" />
+        <div className="bg-white p-6 m-4 rounded-3xl shadow-lg ring-1 ring-gray-900/5">
+          <div id="map" className="w-full h-[400px] rounded-3xl">
+            {/* <img className="rounded-3xl mb-2 object-cover" src="http://via.placeholder.com/640x640" alt="" /> */}
+          </div>
           
           <p className="mt-4 flex items-baseline justify-center gap-x-2">
             <span className="text-base">Total:</span>

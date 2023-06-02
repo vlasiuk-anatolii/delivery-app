@@ -27,7 +27,17 @@ export const Shop = sequelize.define('Shop', {
   iconurl: {
     type: DataTypes.STRING,
     allowNull: true,
-  },  
+  },
+  
+  lat: {
+    type: DataTypes.NUMBER,
+    allowNull: true,
+  },
+
+  lng: {
+    type: DataTypes.NUMBER,
+    allowNull: true,
+  }, 
 }, {
   tableName: 'shops',
 });
