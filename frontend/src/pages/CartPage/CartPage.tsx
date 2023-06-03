@@ -8,10 +8,20 @@ import { IObjectForCart } from '../../react-app-env';
 import { Loader } from '@googlemaps/js-api-loader';
 import { APP_KEYS } from '../../consts';
 import { Error } from '../../components/Error/Error';
+import { setError } from '../../store/actions';
 
 export function CartPage() {
+  const currentProductsInCart = useSelector(getSelectedCart);
+  let productsForRender: IObjectForCart[] = [];
   const shops = useSelector(getAllShops);
   const error = useSelector(getError);
+  const [totalValue, setTotalValue] = useState('0');
+  const [getRoute, setGetRoute] = useState(false);
+  const [distanse, setDistance] = useState(0);
+  const [timeDelivery, setTimeDelivery] = useState(0);
+  const [newLat, setNewLat] = useState(0);
+  const [newLng, setNewLng] = useState(0);
+  const [address, setAddress] = useState('');
 
   const initializeMap = (
     lat = APP_KEYS.GOOGLE_MAP.INITIAL_LAT,
@@ -44,14 +54,40 @@ export function CartPage() {
         position: { lat, lng },
         map: map,
         title: `${place}`,
+        draggable: true,
+      });
+
+      marker.addListener('dragend', function() {
+        const newPosition = marker.getPosition();
+        if (newPosition) {
+          setNewLat(newPosition.lat());
+          setNewLng(newPosition.lng());
+          console.log('Вибрані координати:', newPosition.lat(), newPosition.lng());
+         
+          const geocoder = new google.maps.Geocoder();  // Виклик сервісу геокодування для отримання адреси
+          geocoder.geocode({ 'location': newPosition }, function(results, status) {
+            if (status === 'OK') {
+              if (results && results.length > 0) {
+                setAddress(results[0].formatted_address); // 'Отримана адреса:', results[0].formatted_address
+                
+                } else {
+                setError('Address not found');
+              }
+            } else {
+              setError(`Geocoding error: ${status}`);
+            }
+          });
+        } else {
+          setError('Error getting coordinates');
+        }
       });
 
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition(
           (position) => {
             const currentLocation = {
-              lat: position.coords.latitude,
-              lng: position.coords.longitude,
+              lat: newLat || position.coords.latitude,
+              lng: newLng || position.coords.longitude,
             };
 
             const directionsRequest = {
@@ -82,34 +118,27 @@ export function CartPage() {
                         setDistance(distance / 1000);
                         setTimeDelivery((distance / 1000) / APP_KEYS.GOOGLE_MAP.INITIAL_SPEED)
                       } else {
-                        console.log('Дистанція маршруту недоступна.');
+                        setError('Route distance is not available.');
                       }
                     } else {
-                      console.error('Маршрут не знайдено.');
+                      setError('Route not found.');
                     }
                   } else {
-                    console.error('Не вдалося знайти маршрут. Помилка: ', status);
+                    setError(`The route could not be found. Error: ${status}`);
                   }
                 }
               );
             }
           },
           (error) => {
-            console.error('Помилка отримання поточного місцезнаходження: ', error);
+            setError(`Error getting current location: ${error}`);
           }
         );
       } else {
-        console.error('Геолокація не підтримується браузером.');
+        setError('Geolocation is not supported by the browser.');
       }
     });
   };
-
-  const currentProductsInCart = useSelector(getSelectedCart);
-  let productsForRender: IObjectForCart[] = [];
-  const [totalValue, setTotalValue] = useState('0');
-  const [getRoute, setGetRote] = useState(false);
-  const [distanse, setDistance] = useState(0);
-  const [timeDelivery, setTimeDelivery] = useState(0);
 
   if (currentProductsInCart.length) {
     productsForRender = currentProductsInCart.sort((a, b) => a.id - b.id);
@@ -125,9 +154,11 @@ export function CartPage() {
   }, [currentProductsInCart]);
 
   useEffect(() => {
-    const currentShop = shops.find(item => item.id === currentProductsInCart[0].idshop);
-    if (currentShop) {
-      initializeMap(+(currentShop.lat), +(currentShop.lng), currentShop.name);
+    if(currentProductsInCart.length) {
+      const currentShop = shops.find(item => item.id === currentProductsInCart[0].idshop);
+      if (currentShop) {
+        initializeMap(+(currentShop.lat), +(currentShop.lng), currentShop.name);
+      }
     }
   }, [currentProductsInCart, getRoute]);
 
@@ -178,7 +209,7 @@ export function CartPage() {
                   name="get-route"
                   id="get-route"
                   checked={getRoute}
-                  onChange={() => {setGetRote(!getRoute)}}
+                  onChange={() => {setGetRoute(!getRoute)}}
                 />
               </div>
             </div>
@@ -224,6 +255,7 @@ export function CartPage() {
                     name="address"
                     id="address"
                     autoComplete="address"
+                    value={address}
                     className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                   />
                 </div>
