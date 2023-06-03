@@ -3,13 +3,15 @@ import logo from '../../images/svg/logo.svg';
 import home from '../../images/svg/home.svg';
 import { CardForCart } from '../../components/CardForCart/CardForCart';
 import { useSelector } from 'react-redux';
-import { getSelectedCart, getAllShops } from '../../store/selectors';
+import { getSelectedCart, getAllShops, getError } from '../../store/selectors';
 import { IObjectForCart } from '../../react-app-env';
 import { Loader } from '@googlemaps/js-api-loader';
 import { APP_KEYS } from '../../consts';
+import { Error } from '../../components/Error/Error';
 
 export function CartPage() {
   const shops = useSelector(getAllShops);
+  const error = useSelector(getError);
 
   const initializeMap = (
     lat = APP_KEYS.GOOGLE_MAP.INITIAL_LAT,
@@ -131,6 +133,7 @@ export function CartPage() {
 
   return (
     <>
+      {error && <Error />}
       <div className="bg-white p-6 m-4 rounded-3xl shadow-lg ring-1 ring-gray-900/5">
         <a href="#" className=" flex m-1.5 p-1.5">
           <span className="sr-only">VAM</span>
