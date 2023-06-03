@@ -2,7 +2,7 @@
   { 
     "id": 1,
     "name": "Myastoriya", 
-    "description": "M'ясторія - мережа Steak and Grill. Територія відбірних українських стейків! Можна замовити стейки, м'ясо i готові м'ясні страви. M'ясторія - справжнього м'яса територія!", 
+    "description": "Myastoriya - the Steak and Grill Network. Territory selected Ukrainian steaks! You can order steaks, meat and ready-made meat dishes!", 
     "href": "https://myastoriya.com.ua/ua/", 
     "icon": "https://myastoriya.com.ua/local/templates/new/img/fav/favicon-32x32.png",
     "lat": 50.4299540620848, 
@@ -11,7 +11,7 @@
   { 
     "id": 2,
     "name": "Frozenfood UA", 
-    "description": "Frozenfood UA - надійний виробник i постачальник гамбургерів i чизбургеров для роздрібних магазинів i каналу HORECA.", 
+    "description": "Frozenfood UA is a reliable manufacturer and supplier of hamburgers, cheeseburgers for retail stores and HORECA channel.", 
     "href": "https://frozenfood.com.ua/", 
     "icon": "https://frozenfood.com.ua/wp-content/uploads/2019/12/favic.png",
     "lat": 50.3967261782231, 
@@ -20,7 +20,7 @@
   { 
     "id": 3,
     "name": "Auchan", 
-    "description": "Гіпермаркет Ашан має широкий вибір продуктів харчування, включно зі свіжими овочами та фруктами, молочними продуктами, м'ясом i рибою, солодощами та закусками, a також алкогольними напоями.", 
+    "description": "In the Auchan hypermarket you will find a wide selection of food products, including fresh vegetables and fruits, dairy products, meat and fish, sweets and snacks, as well as alcoholic beverages.", 
     "href": "https://auchan.zakaz.ua/uk/", 
     "icon": "https://auchan.zakaz.ua/i/favicon/favicon-32x32.png" ,
     "lat": 50.41225870265747, 
@@ -29,7 +29,7 @@
   { 
     "id": 4,
     "name": "MrGrill", 
-    "description": "Mr.Grill — відомий український бренд хот-догів зі справжнього м'яса. Це смачний та зручний перекус в шаленому ритмі міста. Саме Mr.Grill впровадив культуру споживання хот-догів в Україні.", 
+    "description": "Mr.Grill is a well-known Ukrainian brand of hot dogs made from real meat. This is a delicious and convenient snack in the crazy rhythm of the city. It was Mr.Grill that introduced the culture of hot dog consumption in Ukraine.", 
     "href": "https://mrgrill.ua/", 
     "icon": "https://mrgrill.ua/favicons/favicon-32x32.png?v=3",
     "lat": 50.45100458987734, 
@@ -38,7 +38,7 @@
  { 
     "id": 5,
     "name": "McDonald's", 
-    "description": "McDonald's — всесвітньовідомий бренд, який забезпечує смачний, швидкий i зручний перекус в шаленому ритмі міста.", 
+    "description": "McDonald's is a world-famous brand that provides a delicious, fast and convenient snack in the frantic rhythm of the city.", 
     "href": "https://www.mcdonalds.com/ua/uk-ua.html", 
     "icon": "https://www.mcdonalds.com/content/dam/sites/ua/nfl/icons/apppageCornerLogo.png",
     "lat": 50.75608955603963, 

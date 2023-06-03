@@ -57,7 +57,7 @@ export const Card: React.FC<Props> = ({
 
 
   return (
-    <div className="mx-auto mt-4 max-w-[300px] lg:max-w-[600px] rounded-3xl ring-1 ring-gray-200 mt-20">
+    <div className="mx-auto mt-4 max-w-[300px] lg:max-w-[600px] rounded-3xl ring-1 ring-gray-200">
       <div className="mt-2 p-2 w-full flex-shrink-0">
         <div className="w-[200px] h-[200px] mb-2 lg:w-[400px] lg:h-[400px]">
           <img className="w-full h-full rounded-3xl object-cover" src={imageurl} alt={name} />

@@ -51,7 +51,8 @@ export function Header() {
 
   return (
     <header className="m-4 rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
-      <nav className="mx-auto flex max-w-7xl items-center justify-between lg:justify-start p-6 lg:px-8" aria-label="Global">
+      <nav className="flex max-w-7xl items-center justify-between lg:justify-start p-6" aria-label="Global">
+
         <div className="flex w-[150px] mr-8">
           <a href="#" className="m-1.5 p-1.5">
             <span className="sr-only">VAM</span>
@@ -157,8 +158,6 @@ export function Header() {
                         {[...shops].map((item) => (
                           <Disclosure.Button
                             key={item.name}
-                            as="a"
-                            href={item.href}
                             className="block rounded-lg py-2 pl-6 pr-3 text-sm font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                             onClick={() => getProductsByShop(item.id)}
                           >
