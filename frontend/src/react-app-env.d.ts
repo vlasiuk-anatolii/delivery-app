@@ -28,3 +28,13 @@ export interface IShops {
   lat: number,
   lng: number, 
 }
+
+export interface IOrder {
+  id: string,
+  name: string, 
+  email: string, 
+  phone: string,
+  address: string,
+  order: IObjectForCart[],
+  total: string, 
+}

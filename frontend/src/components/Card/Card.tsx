@@ -53,8 +53,7 @@ export const Card: React.FC<Props> = ({
 
   useEffect(() => {
     isExist(id);
-  }, []);
-
+  }, [isPresedButton]);
 
   return (
     <div className="mx-auto mt-4 max-w-[300px] lg:max-w-[600px] rounded-3xl ring-1 ring-gray-200">
@@ -69,7 +68,7 @@ export const Card: React.FC<Props> = ({
               <span className="text-5xl font-bold tracking-tight text-gray-900">${price}</span>
               <span className="text-sm font-semibold leading-6 tracking-wide text-gray-600">USD</span>
             </p>
-            <button className="mt-4 cursor-pointer block w-full rounded-md bg-indigo-600 px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            <button className={`mt-4 cursor-pointer block w-full rounded-md ${isPresedButton ? 'bg-red-600' : 'bg-indigo-600'} px-3 py-2 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
               onClick={() => {
                 const isAlreadyExist = currentProductsInCart.find(item => item.id === id); 
                 if (isAlreadyExist) {
@@ -77,7 +76,6 @@ export const Card: React.FC<Props> = ({
                 } else {
                   addToCart();
                 }
-                
                 setIsPresedButton(!isPresedButton);
               }}
             >
