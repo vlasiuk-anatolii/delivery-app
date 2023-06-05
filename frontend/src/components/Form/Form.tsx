@@ -1,24 +1,29 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getSelectedCart } from '../../store/selectors';
 import { IOrder } from '../../react-app-env';
 import { postOrder } from '../../api/api';
 import { v4 as uuidv4 } from 'uuid';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { setError } from '../../store/actions';
+const SITE_KEY = '6LcTuKMjAAAAAH99EHMwIJg8G-gtMvEXW29BQffk';
 
 interface FormValues {
   name: string,
-  address: string, 
+  address: string,
   email: string,
   phone: string,
 }
 
 interface Props {
   address: string,
-  totalValue: string, 
+  totalValue: string,
 }
 
 export const Form: React.FC<Props> = ({ address, totalValue }) => {
-  const currentProductsInCart = useSelector(getSelectedCart);
+  const [isRecaptchaVerified, setRecaptchaVerified] = useState(false);
+  const [errors, setErrors] = useState<Partial<FormValues>>({});
+  const [submitted, setSubmitted] = useState(false);
   const [formValues, setFormValues] = useState<FormValues>({
     name: '',
     address: address,
@@ -26,8 +31,14 @@ export const Form: React.FC<Props> = ({ address, totalValue }) => {
     phone: '',
   });
 
-  const [errors, setErrors] = useState<Partial<FormValues>>({});
-  const [submitted, setSubmitted] = useState(false);
+  const currentProductsInCart = useSelector(getSelectedCart);
+  const dispatch = useDispatch();
+
+  const handleRecaptchaChange = (response: string | null) => {
+    if (response) {
+      setRecaptchaVerified(true);
+    }
+  };
 
   const validateForm = () => {
     const { name, address, email, phone } = formValues;
@@ -77,32 +88,38 @@ export const Form: React.FC<Props> = ({ address, totalValue }) => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    if (validateForm()) {
-      setSubmitted(true);
 
-      const objToSend: IOrder = {
-        ...formValues,
-        total: totalValue,
-        order: currentProductsInCart,
-        id: uuidv4(),
+    if (isRecaptchaVerified) {
+      if (validateForm()) {
+        setSubmitted(true);
+  
+        const objToSend: IOrder = {
+          ...formValues,
+          total: totalValue,
+          order: currentProductsInCart,
+          id: uuidv4(),
+        }
+  
+        console.log(objToSend);
+  
+        postOrder(objToSend);
+  
+        setFormValues({
+          name: '',
+          address: '',
+          email: '',
+          phone: '',
+        });
+        setErrors({});
       }
-
-      console.log(objToSend);
-      
-      postOrder(objToSend);
-
-      setFormValues({
-        name: '',
-        address: '',
-        email: '',
-        phone: '',
-      });
-      setErrors({});
+      dispatch(setError(''));
+    } else {
+      dispatch(setError('Please verify reCAPTCHA'));
     }
   };
 
   useEffect(() => {
-    setFormValues({...formValues, address })
+    setFormValues({ ...formValues, address })
   }, [address]);
 
   return (
@@ -123,7 +140,7 @@ export const Form: React.FC<Props> = ({ address, totalValue }) => {
               onChange={handleInputChange}
               className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
             />
-           {errors.name && <p className="text-red-600 font-bold">{errors.name}</p>} 
+            {errors.name && <p className="text-red-600 font-bold">{errors.name}</p>}
           </div>
         </div>
 
@@ -184,7 +201,10 @@ export const Form: React.FC<Props> = ({ address, totalValue }) => {
 
       <div className="bg-white p-6 my-4 rounded-3xl shadow-lg ring-1 ring-gray-900/5">
         <div className="flex items-center">
-          Captcha:
+          <ReCAPTCHA
+            onChange={handleRecaptchaChange}
+            sitekey={SITE_KEY}
+          />
         </div>
       </div>
 
@@ -196,12 +216,12 @@ export const Form: React.FC<Props> = ({ address, totalValue }) => {
           <span className="text-5xl font-bold tracking-tight text-gray-900">${totalValue}</span>
           <span className="text-sm font-semibold leading-6 tracking-wide text-gray-600">USD</span>
         </p>
-        <button
+        {isRecaptchaVerified && <button
           type="submit"
           className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         >
           Submit
-        </button>
+        </button>}
       </div>
     </form>
   )

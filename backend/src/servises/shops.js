@@ -43,7 +43,6 @@ export const Shop = sequelize.define('Shop', {
 });
 
 export async function getAllShops() {
-
     try {
       const result = await Shop.findAll();
       return result;
