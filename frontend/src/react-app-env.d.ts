@@ -38,3 +38,14 @@ export interface IOrder {
   order: IObjectForCart[],
   total: string, 
 }
+
+export interface IDoneOrders {
+  id: string,
+  name: string, 
+  email: string, 
+  phone: string,
+  address: string,
+  order: string,
+  createdAt: string,
+  total: string, 
+}

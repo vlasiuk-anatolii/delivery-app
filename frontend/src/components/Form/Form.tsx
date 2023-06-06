@@ -99,9 +99,7 @@ export const Form: React.FC<Props> = ({ address, totalValue }) => {
           order: currentProductsInCart,
           id: uuidv4(),
         }
-  
-        console.log(objToSend);
-  
+         
         postOrder(objToSend);
   
         setFormValues({

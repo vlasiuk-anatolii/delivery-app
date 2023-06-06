@@ -4,6 +4,7 @@ import { Routes, Route } from 'react-router-dom';
 import { CartPage } from './pages/CartPage/CartPage';
 import { HomePage } from './pages/HomePage/HomePage';
 import { NotFoundPage } from './pages/NotFoundPage/NotFoundPage';
+import { HistoryPage } from './pages/HistoryPage/HistoryPage';
 
 export const App = () => {
   
@@ -12,6 +13,7 @@ export const App = () => {
       <Routes>
         <Route path="/" element={(<HomePage />)} />
         <Route path="/cart" element={<CartPage />} />
+        <Route path="/history" element={<HistoryPage />} />
         {/* <Route path="/product/:id" element={<ProductDetailsPage />} /> */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

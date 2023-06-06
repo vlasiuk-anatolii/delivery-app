@@ -47,9 +47,10 @@ export const getAll = async(req, res) => {
 
 export const setOrder = async(req, res) => {
   try {
+    console.log(req);
     if (!req.body.name) {
       res.statusCode = 400;
-      res.send('Bad Request');
+      res.send('Bad Request ffffff');
   
       return;
     };

@@ -3,6 +3,7 @@ import { Fragment, useState } from 'react'
 import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react';
 import logo from '../../images/svg/logo.svg';
 import cart from '../../images/svg/cart.svg';
+import history from '../../images/history.png';
 import { Error } from '../Error/Error';
 import {
   Bars3Icon,
@@ -52,17 +53,17 @@ export function Header() {
 
   return (
     <>
-    {error && <Error />}
+      {error && <Error />}
       <header className="m-4 rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
         <nav className="flex max-w-7xl items-center justify-between lg:justify-start p-6" aria-label="Global">
-  
+
           <div className="flex w-[150px] mr-8">
             <a href="#" className="m-1.5 p-1.5">
               <span className="sr-only">VAM</span>
               <img className="h-8 w-auto" src={logo} alt="logo" />
             </a>
           </div>
-  
+
           <div className="flex lg:hidden">
             <button
               type="button"
@@ -73,14 +74,14 @@ export function Header() {
               <Bars3Icon className="h-6 w-6" aria-hidden="true" />
             </button>
           </div>
-  
+
           <Popover.Group className="hidden lg:flex lg:gap-x-12">
             <Popover className="relative">
               <Popover.Button className="flex px-4 items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
                 Shops
                 <ChevronDownIcon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
               </Popover.Button>
-  
+
               <Transition
                 as={Fragment}
                 enter="transition ease-out duration-200"
@@ -113,19 +114,23 @@ export function Header() {
                 </Popover.Panel>
               </Transition>
             </Popover>
-  
+
             <div className="flex flex-1 justify-start">
-              <NavLink to="/cart" className="relative -m-1.5 p-1.5">
+              <NavLink to="/cart" className="relative p-1.5" title='Go to cart'>
                 {selectedcart.length !== 0 &&
                   <div className="absolute right-0 top-0 bg-red-600 w-5 h-5 rounded-full">
                     <p className="text-white text-center leading-none mt-[2px] text-sm">{selectedcart.length}</p>
                   </div>}
                 <img className="h-8 w-auto" src={cart} alt="cart" />
               </NavLink>
+
+              <NavLink to="/history" className="relative p-1.5" title='Show history'>
+                <img className="h-8 w-auto" src={history} alt="icon-history" />
+              </NavLink>
             </div>
           </Popover.Group>
         </nav>
-  
+
         <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>
           <div className="fixed inset-0 z-10" />
           <Dialog.Panel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
@@ -172,12 +177,16 @@ export function Header() {
                     )}
                   </Disclosure>
                   <div className="flex flex-1 justify-start">
-                    <NavLink to="/cart" className="relative -m-1.5 p-1.5">
+                    <NavLink to="/cart" className="relative p-1.5" title='Go to cart'>
                       {selectedcart.length !== 0 &&
                         <div className="absolute right-0 top-0 bg-red-600 w-5 h-5 rounded-full">
                           <p className="text-white text-center leading-none mt-[2px] text-sm">{selectedcart.length}</p>
                         </div>}
                       <img className="h-8 w-auto" src={cart} alt="cart" />
+                    </NavLink>
+
+                    <NavLink to="/history" className="relative p-1.5" title='Show history'>
+                      <img className="h-8 w-auto" src={history} alt="icon-history" />
                     </NavLink>
                   </div>
                 </div>
