@@ -7,7 +7,7 @@ import { postOrder } from '../../api/api';
 import { v4 as uuidv4 } from 'uuid';
 import ReCAPTCHA from 'react-google-recaptcha';
 import { clearCart, setError } from '../../store/actions';
-const SITE_KEY = '6LcTuKMjAAAAAH99EHMwIJg8G-gtMvEXW29BQffk';
+const SITE_KEY = '6LegunMmAAAAAAyq1VxTy_VwBt4cc0B0Www-R6Gp';
 
 interface FormValues {
   name: string,
