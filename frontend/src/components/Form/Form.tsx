@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getSelectedCart } from '../../store/selectors';
+import { useNavigate } from 'react-router-dom';
 import { IOrder } from '../../react-app-env';
 import { postOrder } from '../../api/api';
 import { v4 as uuidv4 } from 'uuid';
 import ReCAPTCHA from 'react-google-recaptcha';
-import { setError } from '../../store/actions';
+import { clearCart, setError } from '../../store/actions';
 const SITE_KEY = '6LcTuKMjAAAAAH99EHMwIJg8G-gtMvEXW29BQffk';
 
 interface FormValues {
@@ -33,6 +34,7 @@ export const Form: React.FC<Props> = ({ address, totalValue }) => {
 
   const currentProductsInCart = useSelector(getSelectedCart);
   const dispatch = useDispatch();
+  const navigate= useNavigate();
 
   const handleRecaptchaChange = (response: string | null) => {
     if (response) {
@@ -44,12 +46,14 @@ export const Form: React.FC<Props> = ({ address, totalValue }) => {
     const { name, address, email, phone } = formValues;
     const errors: Partial<FormValues> = {};
 
-    if (!name) {
-      errors.name = 'Name is required';
-    }
-
     if (!address) {
       errors.address = 'Address is required';
+    }
+
+    if (!name) {
+      errors.name = 'Name is required';
+    } else if (!isValidName(name)) {
+      errors.name = 'Invalid name address';
     }
 
     if (!email) {
@@ -71,6 +75,11 @@ export const Form: React.FC<Props> = ({ address, totalValue }) => {
   const isValidEmail = (email: string) => {
     const emailRegex = /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/;
     return emailRegex.test(email);
+  };
+
+  const isValidName = (name: string) => {
+    const nameRegex = /^[a-zA-Z0-9]+$/;
+    return nameRegex.test(name);
   };
 
   const isValidPhone = (phone: string) => {
@@ -109,8 +118,12 @@ export const Form: React.FC<Props> = ({ address, totalValue }) => {
           phone: '',
         });
         setErrors({});
+
+       
       }
       dispatch(setError(''));
+      navigate('/');
+      dispatch(clearCart(undefined));
     } else {
       dispatch(setError('Please verify reCAPTCHA'));
     }
@@ -134,6 +147,7 @@ export const Form: React.FC<Props> = ({ address, totalValue }) => {
               name="name"
               id="name"
               autoComplete="name"
+              placeholder="Name"
               value={formValues.name}
               onChange={handleInputChange}
               className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -152,6 +166,7 @@ export const Form: React.FC<Props> = ({ address, totalValue }) => {
               name="address"
               id="address"
               autoComplete="address"
+              placeholder="Kyiv, Ukraine, 02000"
               value={address}
               readOnly
               className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -170,6 +185,7 @@ export const Form: React.FC<Props> = ({ address, totalValue }) => {
               name="email"
               id="email"
               autoComplete="email"
+              placeholder="example@email.com"
               value={formValues.email}
               onChange={handleInputChange}
               className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
@@ -188,6 +204,7 @@ export const Form: React.FC<Props> = ({ address, totalValue }) => {
               name="phone"
               id="phone-number"
               autoComplete="tel"
+              placeholder="0993202222"
               value={formValues.phone}
               onChange={handleInputChange}
               className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"

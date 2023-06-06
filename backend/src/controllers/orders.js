@@ -50,7 +50,7 @@ export const setOrder = async(req, res) => {
     console.log(req);
     if (!req.body.name) {
       res.statusCode = 400;
-      res.send('Bad Request ffffff');
+      res.send('Bad Request');
   
       return;
     };
