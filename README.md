@@ -3,7 +3,7 @@
   <h3 align="center">Delivery App</h3>
 
   <p align="center">
-    <a href="http://ec2-16-171-1-144.eu-north-1.compute.amazonaws.com:3000">View Demo</a>
+    <a href="http://ec2-16-16-100-211.eu-north-1.compute.amazonaws.com:3000">View Demo</a>
   </p>
 </p>
 
