@@ -9,7 +9,9 @@ import {
   ISetAllProducts,
   ISetError,
   ISetAllShops,
-  IClearCart
+  IClearCart,
+  ISetCoupons,
+  ISetTotal,
 } from './actions';
 
 // Initial state
@@ -19,6 +21,8 @@ const initialState: IRootState = {
   allProducts: [],
   allShops: [],
   error: '',
+  coupons: [],
+  currentTotal: '',
 };
 
 // rootReducer - this function is called after dispatching an action
@@ -33,6 +37,8 @@ const rootReducer = (
     | ISetError 
     | ISetAllShops 
     | IClearCart
+    | ISetCoupons
+    | ISetTotal
 ) => {
   switch (action.type) {
     case ActionType.SET_SELECTED_CART:
@@ -83,6 +89,18 @@ const rootReducer = (
       return {
         ...state,
         selectedcart: [],
+      };
+
+    case ActionType.SET_COUPONS:
+      return {
+        ...state,
+        coupons: [...action.payload],
+      };
+
+    case ActionType.SET_TOTAL:
+      return {
+        ...state,
+        currentTotal: action.payload,
       };
 
     default:

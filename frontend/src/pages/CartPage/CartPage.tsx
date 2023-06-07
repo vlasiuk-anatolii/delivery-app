@@ -2,21 +2,21 @@ import React, { useEffect, useState } from 'react'
 import logo from '../../images/svg/logo.svg';
 import home from '../../images/svg/home.svg';
 import { CardForCart } from '../../components/CardForCart/CardForCart';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getSelectedCart, getAllShops, getError } from '../../store/selectors';
 import { IObjectForCart } from '../../react-app-env';
 import { Loader } from '@googlemaps/js-api-loader';
 import { APP_KEYS } from '../../consts';
 import { Error } from '../../components/Error/Error';
-import { setError } from '../../store/actions';
+import { setError, setTotal } from '../../store/actions';
 import { Form } from '../../components/Form/Form';
 
 export function CartPage() {
+  const dispatch = useDispatch();
   const currentProductsInCart = useSelector(getSelectedCart);
   let productsForRender: IObjectForCart[] = [];
   const shops = useSelector(getAllShops);
   const error = useSelector(getError);
-  const [totalValue, setTotalValue] = useState('0');
   const [getRoute, setGetRoute] = useState(false);
   const [distanse, setDistance] = useState(0);
   const [timeDelivery, setTimeDelivery] = useState(0);
@@ -151,7 +151,7 @@ export function CartPage() {
   }
 
   useEffect(() => {
-    setTotalValue(getTotalValue());
+    dispatch(setTotal(getTotalValue()));
   }, [currentProductsInCart]);
 
   useEffect(() => {
@@ -230,7 +230,6 @@ export function CartPage() {
 
           <Form          
             address={address}
-            totalValue={totalValue}
              />
         </div>
       </div>

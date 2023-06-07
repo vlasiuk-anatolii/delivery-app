@@ -4,6 +4,8 @@ import { Dialog, Disclosure, Popover, Transition } from '@headlessui/react';
 import logo from '../../images/svg/logo.svg';
 import cart from '../../images/svg/cart.svg';
 import history from '../../images/history.png';
+import coupon from '../../images/svg/coupon.svg';
+
 import { Error } from '../Error/Error';
 import {
   Bars3Icon,
@@ -127,6 +129,10 @@ export function Header() {
               <NavLink to="/history" className="relative p-1.5" title='Show history'>
                 <img className="h-8 w-auto" src={history} alt="icon-history" />
               </NavLink>
+
+              <NavLink to="/coupons" className="relative p-1.5" title='Show current coupons'>
+                <img className="h-8 w-auto" src={coupon} alt="icon-coupon" />
+              </NavLink>
             </div>
           </Popover.Group>
         </nav>
@@ -187,6 +193,10 @@ export function Header() {
 
                     <NavLink to="/history" className="relative p-1.5" title='Show history'>
                       <img className="h-8 w-auto" src={history} alt="icon-history" />
+                    </NavLink>
+
+                    <NavLink to="/coupons" className="relative p-1.5" title='Show current coupons'>
+                      <img className="h-8 w-auto" src={coupon} alt="icon-coupon" />
                     </NavLink>
                   </div>
                 </div>

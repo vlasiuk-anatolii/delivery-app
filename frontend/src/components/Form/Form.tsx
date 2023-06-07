@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getSelectedCart } from '../../store/selectors';
+import { getCoupons, getCurrentTotal, getSelectedCart } from '../../store/selectors';
 import { useNavigate } from 'react-router-dom';
 import { IOrder } from '../../react-app-env';
 import { postOrder } from '../../api/api';
 import { v4 as uuidv4 } from 'uuid';
 import ReCAPTCHA from 'react-google-recaptcha';
-import { clearCart, setError } from '../../store/actions';
+import { clearCart, setCoupons, setError, setTotal } from '../../store/actions';
 const SITE_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
 
 interface FormValues {
@@ -18,13 +18,15 @@ interface FormValues {
 
 interface Props {
   address: string,
-  totalValue: string,
 }
 
-export const Form: React.FC<Props> = ({ address, totalValue }) => {
+export const Form: React.FC<Props> = ({ address }) => {
+  const totalValue = useSelector(getCurrentTotal);
   const [isRecaptchaVerified, setRecaptchaVerified] = useState(false);
   const [errors, setErrors] = useState<Partial<FormValues>>({});
   const [submitted, setSubmitted] = useState(false);
+  const [isCodeApplied, setIsCodeAplied] = useState(false);
+  const [couponCode, setCouponeCode] = useState('');
   const [formValues, setFormValues] = useState<FormValues>({
     name: '',
     address: address,
@@ -34,7 +36,8 @@ export const Form: React.FC<Props> = ({ address, totalValue }) => {
 
   const currentProductsInCart = useSelector(getSelectedCart);
   const dispatch = useDispatch();
-  const navigate= useNavigate();
+  const navigate = useNavigate();
+  const coupons = useSelector(getCoupons);
 
   const handleRecaptchaChange = (response: string | null) => {
     if (response) {
@@ -69,7 +72,7 @@ export const Form: React.FC<Props> = ({ address, totalValue }) => {
     }
     setErrors(errors);
 
-    return Object.keys(errors).length === 0; // Повертає true, якщо форма валідна
+    return Object.keys(errors).length === 0;
   };
 
   const isValidEmail = (email: string) => {
@@ -95,22 +98,41 @@ export const Form: React.FC<Props> = ({ address, totalValue }) => {
     }));
   };
 
+  const handleCouponeCode = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { value } = event.target;
+    setCouponeCode(value);
+  };
+
+  const handleApplingCode = () => {
+    const isExistCoupon = coupons.find(item => item.code === couponCode);
+    if (isExistCoupon) {
+      const newTotalValue = (+totalValue * (1 - isExistCoupon.discount)).toFixed(2);
+      setIsCodeAplied(true);
+      dispatch(setTotal(newTotalValue));
+      isExistCoupon.stateUsing = 'used';
+      dispatch(setCoupons([...coupons, isExistCoupon]));
+    } else {
+      setIsCodeAplied(false);
+    }
+  };
+
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     if (isRecaptchaVerified) {
       if (validateForm()) {
         setSubmitted(true);
-  
+                
         const objToSend: IOrder = {
           ...formValues,
           total: totalValue,
           order: currentProductsInCart,
           id: uuidv4(),
         }
-         
+
         postOrder(objToSend);
-  
+
         setFormValues({
           name: '',
           address: '',
@@ -118,9 +140,8 @@ export const Form: React.FC<Props> = ({ address, totalValue }) => {
           phone: '',
         });
         setErrors({});
-
-       
       }
+
       dispatch(setError(''));
       navigate('/');
       dispatch(clearCart(undefined));
@@ -130,8 +151,8 @@ export const Form: React.FC<Props> = ({ address, totalValue }) => {
   };
 
   useEffect(() => {
-    setFormValues({ ...formValues, address })
-  }, [address]);
+    setFormValues({ ...formValues, address });
+  }, [address, totalValue]);
 
   return (
     <form onSubmit={handleSubmit} className="mx-auto mt-4 max-w-xl">
@@ -212,6 +233,31 @@ export const Form: React.FC<Props> = ({ address, totalValue }) => {
             {errors.phone && <p className="text-red-600 font-bold">{errors.phone}</p>}
           </div>
         </div>
+      </div>
+
+      <div className="bg-white p-6 my-4 rounded-3xl shadow-lg ring-1 ring-gray-900/5">
+        <label htmlFor="phone-number" className="block text-sm font-semibold leading-6 text-gray-900">
+          Coupon code:
+        </label>
+        <div className="my-2.5">
+          <input
+            type="text"
+            name="coupon"
+            id="coupon"
+            value={couponCode}
+            onChange={handleCouponeCode}
+            className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+          />
+         
+        </div>
+        <button
+          type="button"
+          disabled={isCodeApplied}
+          onClick={handleApplingCode}
+          className={`block w-full rounded-md ${isCodeApplied ? 'bg-gray-400' :  'bg-indigo-600' } px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm ${!isCodeApplied && 'hover:bg-indigo-500'} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
+        >
+          {isCodeApplied ? 'Applied!' : 'Apply'}
+        </button>
       </div>
 
       <div className="bg-white p-6 my-4 rounded-3xl shadow-lg ring-1 ring-gray-900/5">

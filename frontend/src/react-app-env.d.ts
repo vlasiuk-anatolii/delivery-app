@@ -13,6 +13,8 @@ export interface IRootState {
   allProducts: IProduct[],
   error: string,
   allShops: IShops[],
+  coupons: ICoupon[],
+  currentTotal: string,
 }
 
 export interface IObjectForCart extends IProduct  {
@@ -48,4 +50,13 @@ export interface IDoneOrders {
   order: string,
   createdAt: string,
   total: string, 
+}
+
+export interface ICoupon {
+  id: string,
+  name: string, 
+  discount: number, 
+  code: string,
+  stateUsing: string,
+  imgUrl: string,
 }

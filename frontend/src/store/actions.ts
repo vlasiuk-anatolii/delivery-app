@@ -1,4 +1,4 @@
-import { IObjectForCart, IProduct, IShops  } from '../react-app-env';
+import { ICoupon, IObjectForCart, IProduct, IShops  } from '../react-app-env';
 
 // Action types - is just a constant. MUST have a unique value.
 export enum ActionType {
@@ -10,6 +10,8 @@ export enum ActionType {
   SET_ERROR = 'SET_ERROR',
   SET_ALL_SHOPS = 'SET_ALL_SHOPS',
   CLEAR_CART = 'CLEAR_CART',
+  SET_COUPONS = 'SET_COUPONS',
+  SET_TOTAL = 'SET_TOTAL',
 }
 
 export interface ISetSelectedCart {
@@ -52,6 +54,16 @@ export interface IClearCart {
   payload: undefined,
 }
 
+export interface ISetCoupons {
+  type: ActionType.SET_COUPONS,
+  payload: ICoupon[],
+}
+
+export interface ISetTotal {
+  type: ActionType.SET_TOTAL,
+  payload: string,
+}
+
 // Action creators - a function returning an action object
 
 export const setSelectedCart = (payload: IObjectForCart): ISetSelectedCart => ({
@@ -91,6 +103,16 @@ export const setAllShops = (payload: IShops[]): ISetAllShops => ({
 
 export const clearCart = (payload: undefined): IClearCart => ({
   type: ActionType.CLEAR_CART,
+  payload,
+});
+
+export const setCoupons = (payload: ICoupon[]): ISetCoupons => ({
+  type: ActionType.SET_COUPONS,
+  payload,
+});
+
+export const setTotal = (payload: string): ISetTotal => ({
+  type: ActionType.SET_TOTAL,
   payload,
 });
 

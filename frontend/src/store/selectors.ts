@@ -5,3 +5,5 @@ export const getCurrentProducts = (state: IRootState) => state.currentProducts;
 export const getAllProducts = (state: IRootState) => state.allProducts;
 export const getError = (state: IRootState) => state.error;
 export const getAllShops = (state: IRootState) => state.allShops;
+export const getCoupons = (state: IRootState) => state.coupons;
+export const getCurrentTotal = (state: IRootState) => state.currentTotal;
