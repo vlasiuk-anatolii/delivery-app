@@ -2,17 +2,13 @@
   "name": "deliveryapp",
   "version": "1.0.0",
   "main": "index.js",
-  "dependencies": {
-    "axios": "^1.4.0",
-    "react-google-recaptcha": "^3.1.0"
-  },
+  "dependencies": {},
   "devDependencies": {},
   "scripts": {
     "start": "npx npm-run-all -p start:frontend start:backend",
     "start:frontend": "cd frontend && npm start",
     "start:backend": "cd backend && npm start"
-  }
-  ,
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/vlasiuk-anatolii/delivery-app.git"
