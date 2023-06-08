@@ -10,6 +10,8 @@ import { APP_KEYS } from '../../consts';
 import { Error } from '../../components/Error/Error';
 import { setError, setTotal } from '../../store/actions';
 import { Form } from '../../components/Form/Form';
+import { NavLink } from 'react-router-dom';
+import coupon from '../../images/svg/coupon.svg';
 
 export function CartPage() {
   const dispatch = useDispatch();
@@ -63,8 +65,7 @@ export function CartPage() {
         if (newPosition) {
           setNewLat(newPosition.lat());
           setNewLng(newPosition.lng());
-          console.log('Вибрані координати:', newPosition.lat(), newPosition.lng());
-
+          // console.log('Вибрані координати:', newPosition.lat(), newPosition.lng());
           const geocoder = new google.maps.Geocoder();  // Виклик сервісу геокодування для отримання адреси
           geocoder.geocode({ 'location': newPosition }, function (results, status) {
             if (status === 'OK') {
@@ -72,14 +73,14 @@ export function CartPage() {
                 setAddress(results[0].formatted_address); // 'Отримана адреса:', results[0].formatted_address
 
               } else {
-                setError('Address not found');
+                dispatch(setError('Address not found'));
               }
             } else {
-              setError(`Geocoding error: ${status}`);
+              dispatch(setError(`Geocoding error: ${status}`));
             }
           });
         } else {
-          setError('Error getting coordinates');
+          dispatch(setError('Error getting coordinates'));
         }
       });
 
@@ -119,24 +120,24 @@ export function CartPage() {
                         setDistance(distance / 1000);
                         setTimeDelivery((distance / 1000) / APP_KEYS.GOOGLE_MAP.INITIAL_SPEED)
                       } else {
-                        setError('Route distance is not available.');
+                        dispatch(setError('Route distance is not available.'));
                       }
                     } else {
-                      setError('Route not found.');
+                      dispatch(setError('Route not found.'));
                     }
                   } else {
-                    setError(`The route could not be found. Error: ${status}`);
+                    dispatch(setError(`The route could not be found. Error: ${status}`));
                   }
                 }
               );
             }
           },
           (error) => {
-            setError(`Error getting current location: ${error}`);
+            dispatch(setError(`Error getting current location: ${error}`));
           }
         );
       } else {
-        setError('Geolocation is not supported by the browser.');
+        dispatch(setError('Geolocation is not supported by the browser.'));
       }
     });
   };
@@ -166,12 +167,16 @@ export function CartPage() {
   return (
     <>
       {error && <Error />}
-      <div className="bg-white p-6 m-4 rounded-3xl shadow-lg ring-1 ring-gray-900/5">
-        <a href="#" className=" flex m-1.5 p-1.5">
+      <div className="flex bg-white p-6 m-4 rounded-3xl shadow-lg ring-1 ring-gray-900/5">
+        <a href="#" className="flex">
           <span className="sr-only">VAM</span>
           <img className="h-8 w-auto mr-3" src={logo} alt="logo" />
-          <img className="h-8 w-auto" src={home} alt="home" title="Back to home" />
+          <img className="h-8 w-auto mr-3" src={home} alt="home" title="Back to home" />
         </a>
+
+        <NavLink to={APP_KEYS.ROUTER_KEYS.COUPON_PAGE} className="relative" title='Show current coupons'>
+          <img className="h-8 w-auto" src={coupon} alt="icon-coupon" />
+        </NavLink>
       </div>
 
       <div className="flex flex-wrap justify-center p-6 m-4 rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
@@ -228,9 +233,9 @@ export function CartPage() {
             </>}
           </div>
 
-          <Form          
+          <Form
             address={address}
-             />
+          />
         </div>
       </div>
     </>

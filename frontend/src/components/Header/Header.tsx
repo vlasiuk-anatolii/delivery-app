@@ -5,12 +5,9 @@ import logo from '../../images/svg/logo.svg';
 import cart from '../../images/svg/cart.svg';
 import history from '../../images/history.png';
 import coupon from '../../images/svg/coupon.svg';
-
+import { APP_KEYS } from '../../consts';
 import { Error } from '../Error/Error';
-import {
-  Bars3Icon,
-  XMarkIcon,
-} from '@heroicons/react/24/outline'
+import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import { NavLink } from 'react-router-dom';
 import { IProduct } from '../../react-app-env';
@@ -36,6 +33,7 @@ export function Header() {
   useEffect(() => {
     getShops()
       .then(result => {
+        console.log(result);
         dispatch(setAllShops(result));
       })
       .catch((error) => {
@@ -79,7 +77,7 @@ export function Header() {
 
           <Popover.Group className="hidden lg:flex lg:gap-x-12">
             <Popover className="relative">
-              <Popover.Button className="flex px-4 items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900">
+              <Popover.Button className="flex p-3 items-center gap-x-1 text-lg font-semibold leading-6 text-gray-900">
                 Shops
                 <ChevronDownIcon className="h-5 w-5 flex-none text-gray-400" aria-hidden="true" />
               </Popover.Button>
@@ -118,7 +116,7 @@ export function Header() {
             </Popover>
 
             <div className="flex flex-1 justify-start">
-              <NavLink to="/cart" className="relative p-1.5" title='Go to cart'>
+              <NavLink to={APP_KEYS.ROUTER_KEYS.CART_PAGE} className="relative p-1.5" title='Go to cart'>
                 {selectedcart.length !== 0 &&
                   <div className="absolute right-0 top-0 bg-red-600 w-5 h-5 rounded-full">
                     <p className="text-white text-center leading-none mt-[2px] text-sm">{selectedcart.length}</p>
@@ -126,11 +124,11 @@ export function Header() {
                 <img className="h-8 w-auto" src={cart} alt="cart" />
               </NavLink>
 
-              <NavLink to="/history" className="relative p-1.5" title='Show history'>
+              <NavLink to={APP_KEYS.ROUTER_KEYS.HISTORY_PAGE} className="relative p-1.5" title='Show history'>
                 <img className="h-8 w-auto" src={history} alt="icon-history" />
               </NavLink>
 
-              <NavLink to="/coupons" className="relative p-1.5" title='Show current coupons'>
+              <NavLink to={APP_KEYS.ROUTER_KEYS.COUPON_PAGE} className="relative p-1.5" title='Show current coupons'>
                 <img className="h-8 w-auto" src={coupon} alt="icon-coupon" />
               </NavLink>
             </div>
@@ -183,7 +181,7 @@ export function Header() {
                     )}
                   </Disclosure>
                   <div className="flex flex-1 justify-start">
-                    <NavLink to="/cart" className="relative p-1.5" title='Go to cart'>
+                    <NavLink to={APP_KEYS.ROUTER_KEYS.CART_PAGE} className="relative p-1.5" title='Go to cart'>
                       {selectedcart.length !== 0 &&
                         <div className="absolute right-0 top-0 bg-red-600 w-5 h-5 rounded-full">
                           <p className="text-white text-center leading-none mt-[2px] text-sm">{selectedcart.length}</p>
@@ -191,11 +189,11 @@ export function Header() {
                       <img className="h-8 w-auto" src={cart} alt="cart" />
                     </NavLink>
 
-                    <NavLink to="/history" className="relative p-1.5" title='Show history'>
+                    <NavLink to={APP_KEYS.ROUTER_KEYS.HISTORY_PAGE} className="relative p-1.5" title='Show history'>
                       <img className="h-8 w-auto" src={history} alt="icon-history" />
                     </NavLink>
 
-                    <NavLink to="/coupons" className="relative p-1.5" title='Show current coupons'>
+                    <NavLink to={APP_KEYS.ROUTER_KEYS.HISTORY_PAGE} className="relative p-1.5" title='Show current coupons'>
                       <img className="h-8 w-auto" src={coupon} alt="icon-coupon" />
                     </NavLink>
                   </div>

@@ -1,6 +1,8 @@
 export const ROUTER_KEYS = {
   HOME: '/',
   CART_PAGE: '/cart',
+  HISTORY_PAGE: '/history',
+  COUPON_PAGE: '/coupons',
 };
 
 export const PORTS = {
@@ -19,3 +21,7 @@ export const GOOGLE_MAP = {
   INITIAL_ZOOM: 18,
   INITIAL_SPEED: 90,
 };
+
+export const CAPTCHA = {
+  SITE_KEY: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
+}

@@ -14,6 +14,28 @@ export function HistoryPage() {
   const [ordersProducts, setOrdersProducts] = useState<IDoneOrders[]>([]);
   const error = useSelector(getError);
 
+  function formatDate(dateString: string) {
+    const date = new Date(dateString);
+    const day = date.getDate();
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    let stringDay = day.toString();
+    let stringMonth = month.toString();
+    const hours = date.getHours();
+    const minutes = date.getMinutes();
+    const seconds = date.getSeconds();
+
+    if (stringDay.length === 1) {
+      stringDay = '0' + stringDay;
+    }
+
+    if (stringMonth.length === 1) {
+      stringMonth = '0' + stringMonth;
+    }
+
+    return stringDay + '/' + stringMonth + '/' + `${year}` + '-' + `${hours}:${minutes}:${seconds}`;
+  }
+
   useEffect(() => {
     getOrders()
       .then(result => {
@@ -36,21 +58,21 @@ export function HistoryPage() {
       </div>
 
       <div className="flex flex-wrap justify-center p-6 m-4 rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
-        
-          {ordersProducts.length === 0
-            ? <p className="p-6"> No orders!</p>
-            : ordersProducts.map((item, index) => {
-              return (
-                <div key={item.id} className="p-6 m-4 rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
-                  <div className="text-xl w-8 h-8 bg-black rounded-full  font-bold text-white text-center align mb-2">{index + 1}</div>
-                  <p className="text-xl font-semibold text-gray-600 mb-3"><span className="text-base ring-1 ring-gray-900/5 rounded-3xl p-1.5 border-2">Order ID:</span> {item.id}</p>
-                  <p className="text-xl font-semibold text-gray-600 mb-3"><span className="text-base ring-1 ring-gray-900/5 rounded-3xl p-1.5 border-2">Email:</span> {item.email}</p>
-                  <p className="text-xl font-semibold text-gray-600 mb-3"><span className="text-base ring-1 ring-gray-900/5 rounded-3xl p-1.5 border-2">Address:</span> {item.address}</p>
-                  <p className="text-xl font-semibold text-gray-600 mb-3"><span className="text-base ring-1 ring-gray-900/5 rounded-3xl p-1.5 border-2">When:</span> {item.createdAt}</p>
-                  <p className="text-xl font-semibold text-gray-600 mb-3"><span className="text-base ring-1 ring-gray-900/5 rounded-3xl p-1.5 border-2">Amount:</span> {item.total} $</p>
-                  <p className="text-xl font-semibold text-gray-600 mb-3"><span className="text-base ring-1 ring-gray-900/5 rounded-3xl p-1.5 border-2">Products:</span> {
-                    JSON.parse(item.order).map((item: IObjectForCart) => {
-                      return (
+
+        {ordersProducts.length === 0
+          ? <p className="p-6"> No orders!</p>
+          : ordersProducts.map((item, index) => {
+            return (
+              <div key={item.id} className="p-6 m-4 rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5">
+                <div className="text-xl w-8 h-8 bg-black rounded-full  font-bold text-white text-center align mb-2">{index + 1}</div>
+                <p title={item.id} className="text-xl font-semibold text-gray-600 mb-3"><span className="text-base ring-1 ring-gray-900/5 rounded-3xl p-1.5 border-2">Order ID:</span> {`${item.id.slice(0, 6)}...`}</p>
+                <p className="text-xl font-semibold text-gray-600 mb-3"><span className="text-base ring-1 ring-gray-900/5 rounded-3xl p-1.5 border-2">Email:</span> {item.email}</p>
+                <p className="text-xl font-semibold text-gray-600 mb-3"><span className="text-base ring-1 ring-gray-900/5 rounded-3xl p-1.5 border-2">Address:</span> {item.address}</p>
+                <p className="text-xl font-semibold text-gray-600 mb-3"><span className="text-base ring-1 ring-gray-900/5 rounded-3xl p-1.5 border-2">When:</span> {formatDate(item.createdAt)}</p>
+                <p className="text-xl font-semibold text-gray-600 mb-3"><span className="text-base ring-1 ring-gray-900/5 rounded-3xl p-1.5 border-2">Amount:</span> {item.total} $</p>
+                <p className="text-xl font-semibold text-gray-600 mb-3"><span className="text-base ring-1 ring-gray-900/5 rounded-3xl p-1.5 border-2">Products:</span> {
+                  JSON.parse(item.order).map((item: IObjectForCart) => {
+                    return (
                       <CardOrder
                         key={item.id}
                         id={item.id}
@@ -61,13 +83,12 @@ export function HistoryPage() {
                         discount={item.discount}
                         quantity={item.quantity}
                       />
-                      )
-                    })}
-                  </p>
-                </div>
-              )
-            })}
-        
+                    )
+                  })}
+                </p>
+              </div>
+            )
+          })}
       </div>
     </>
   )

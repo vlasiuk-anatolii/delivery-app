@@ -1,9 +1,7 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
-import shops from '../../api/shops.json';
-//import { setSelectedCart } from '../../store/actions';
+import { useDispatch, useSelector } from 'react-redux';
 import { setQuantity } from '../../store/actions';
-//import { IObjectForCart } from '../../react-app-env';
+import { getAllShops } from '../../store/selectors';
 
 type Props = {
   id: number,
@@ -25,6 +23,7 @@ export const CardForCart: React.FC<Props> = ({
   quantity,
 }) => {
   const dispatch = useDispatch();
+  const shops = useSelector(getAllShops);
   const currentProduct = {
     id,
     idshop,

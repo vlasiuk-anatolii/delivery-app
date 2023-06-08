@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { IOrder } from './../react-app-env';
 
-export const BASE_URL = 'http://16.171.1.144:5000';
+export const BASE_URL = 'http://localhost:5000';
 
 export async function getProducts() {
   try {
@@ -15,6 +15,7 @@ export async function getProducts() {
 export async function getShops() {
   try {
     const response = await axios.get(`${BASE_URL}/shops`);
+    console.log(response.data);
     return response.data;
   } catch (error) {
     return error;

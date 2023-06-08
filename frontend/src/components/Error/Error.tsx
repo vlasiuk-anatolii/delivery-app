@@ -9,7 +9,7 @@ export const Error = () => {
   return (
     <>
       {isVisible &&
-        <div className=" bg-white m-4 rounded-3xl shadow-lg ring-1 ring-gray-900/5">
+        <div className="sticky bg-white m-4 rounded-3xl shadow-lg ring-1 ring-gray-900/5">
           <p className="flex justify-between cursor-pointer p-6 bg-red-500 rounded-3xl text-white"> {error}<div onClick={() => setIsVisible(false)}>&times;</div></p>
         </div>
       }

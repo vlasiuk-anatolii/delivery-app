@@ -1,9 +1,10 @@
 import './NotFound.scss';
+import React from 'react';
 
 export const NotFound = () => {
   return (
     <div className="notfound">
-      <h1 className="notfound__title">Models not found</h1>
+      <h1 className="notfound__title">Not found</h1>
     </div>
   );
 };

@@ -22,7 +22,7 @@ export const CardCoupon: React.FC<Props> = ({
   const [isCopied, setIsCopied] = useState(false);
 
   const handleCopyClick = () => {
-    navigator.clipboard.writeText(`${code}`)
+    navigator.clipboard.writeText(code)
       .then(() => {
         setIsCopied(true);
       })

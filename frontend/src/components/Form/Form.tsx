@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCoupons, getCurrentTotal, getSelectedCart } from '../../store/selectors';
-import { useNavigate } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { IOrder } from '../../react-app-env';
 import { postOrder } from '../../api/api';
 import { v4 as uuidv4 } from 'uuid';
 import ReCAPTCHA from 'react-google-recaptcha';
+import { APP_KEYS } from '../../consts';
 import { clearCart, setCoupons, setError, setTotal } from '../../store/actions';
-const SITE_KEY = '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI';
+import coupon from '../../images/svg/coupon.svg';
 
 interface FormValues {
   name: string,
@@ -123,7 +124,7 @@ export const Form: React.FC<Props> = ({ address }) => {
     if (isRecaptchaVerified) {
       if (validateForm()) {
         setSubmitted(true);
-                
+
         const objToSend: IOrder = {
           ...formValues,
           total: totalValue,
@@ -140,11 +141,15 @@ export const Form: React.FC<Props> = ({ address }) => {
           phone: '',
         });
         setErrors({});
-      }
+        dispatch(clearCart(undefined));
+        dispatch(setError(''));
+        setTimeout(() => {
+          navigate('/');
+        }, 5000)
 
-      dispatch(setError(''));
-      navigate('/');
-      dispatch(clearCart(undefined));
+      } else {
+        dispatch(setError('You should fill the form'));
+      }
     } else {
       dispatch(setError('Please verify reCAPTCHA'));
     }
@@ -183,6 +188,7 @@ export const Form: React.FC<Props> = ({ address }) => {
           </label>
           <div className="mt-2.5">
             <input
+              title="Move the red marker to your location"
               type="text"
               name="address"
               id="address"
@@ -248,28 +254,33 @@ export const Form: React.FC<Props> = ({ address }) => {
             onChange={handleCouponeCode}
             className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
           />
-         
+
         </div>
-        <button
-          type="button"
-          disabled={isCodeApplied}
-          onClick={handleApplingCode}
-          className={`block w-full rounded-md ${isCodeApplied ? 'bg-gray-400' :  'bg-indigo-600' } px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm ${!isCodeApplied && 'hover:bg-indigo-500'} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
-        >
-          {isCodeApplied ? 'Applied!' : 'Apply'}
-        </button>
+        <div className='flex'>
+          <button
+            type="button"
+            disabled={isCodeApplied}
+            onClick={handleApplingCode}
+            className={`block w-full rounded-md mr-2 ${isCodeApplied ? 'bg-gray-400' : 'bg-indigo-600'} px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm ${!isCodeApplied && 'hover:bg-indigo-500'} focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600`}
+          >
+            {isCodeApplied ? 'Applied!' : 'Apply'}
+          </button>
+          <NavLink to="/coupons" className="relative" title='Show current coupons'>
+            <img className="h-8 w-auto" src={coupon} alt="icon-coupon" />
+          </NavLink>
+        </div>
       </div>
 
       <div className="bg-white p-6 my-4 rounded-3xl shadow-lg ring-1 ring-gray-900/5">
         <div className="flex items-center">
           <ReCAPTCHA
             onChange={handleRecaptchaChange}
-            sitekey={SITE_KEY}
+            sitekey={APP_KEYS.CAPTCHA.SITE_KEY}
           />
         </div>
       </div>
 
-      {submitted && <p className="text-green-600 font-bold">Form successfully submitted!</p>}
+      {submitted && <p className="text-green-600 font-bold">Data successfully were send to DB!</p>}
 
       <div className="mt-10 flex gap-4">
         <p className="mt-4 flex items-baseline justify-center gap-x-2">
