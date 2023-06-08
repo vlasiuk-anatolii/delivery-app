@@ -5,7 +5,7 @@
   <h3 align="center">Delivery App</h3>
 
   <p align="center">
-    <a href="http://ec2-3-252-200-218.eu-west-1.compute.amazonaws.com">View Demo</a>
+    <a href="http://ec2-16-16-100-211.eu-north-1.compute.amazonaws.com:3000">View Demo</a>
     </br>
     <a href="https://www.loom.com/share/27e214f9cb6c4d89907eee1a4db49a6a">View Video Demo</a>
   </p>
