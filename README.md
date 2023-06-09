@@ -1,6 +1,6 @@
 <br/>
 <p align="center">
-  <img src="images-readme/Logo.jpg" alt="Logo" width="80" height="80">
+  <img src="images-readme/Logo_delivery_app.jpg" alt="Logo" width="80" height="80">
 
   <h3 align="center">Delivery App</h3>
 
@@ -10,7 +10,6 @@
     <a href="https://www.loom.com/share/27e214f9cb6c4d89907eee1a4db49a6a">View Video Demo</a>
   </p>
 </p>
-
 
 
 ## Table Of Contents
@@ -27,7 +26,7 @@
 
 ## About The Project
 
-![Screen Shot](images-readme/Screenshot_1.jpg)
+![Screen Shot](images-readme/Screenshot_1_delivery_app.jpg)
 
 The Delivery App consists four basic pages:
 * Home Page
@@ -37,11 +36,11 @@ The Delivery App consists four basic pages:
 
 On the Home page users can choose a shop, then add goods to the cart (data will be gotten from the database).
 
-![Screen Shot](images-readme/Screenshot_2.jpg)
+![Screen Shot](images-readme/Screenshot_2_delivery_app.jpg)
 
 On the Cart Page the user can check all added products, change the count. 
 
-![Screen Shot](images-readme/Screenshot_3.jpg)
+![Screen Shot](images-readme/Screenshot_3_delivery_app.jpg)
 
 And add an email, a phone number, and an address (in
 inputs). The order will be saved in the database after the user clicks the “submit” button, which will appear after verification captcha. Also, the user can apply coupons on discount.
@@ -52,21 +51,21 @@ Users can choose their address using a marker on the map. The user should grab t
 
 When the user choosed products and opened Cart Page, initially the marker places in a point, which has coordinates of choosed shop.
 
-![Screen Shot](images-readme/Screenshot_4.jpg)
+![Screen Shot](images-readme/Screenshot_4_delivery_app.jpg)
 
 The App shows route from shop to user’s address and approximately time (in hours) of delivering.
 
-![Screen Shot](images-readme/Screenshot_5.jpg)
-![Screen Shot](images-readme/Screenshot_6.jpg)
+![Screen Shot](images-readme/Screenshot_5_delivery_app.jpg)
+![Screen Shot](images-readme/Screenshot_6_delivery_app.jpg)
 
 Users can find their orders on History Page.
 
-![Screen Shot](images-readme/Screenshot_7.jpg)
+![Screen Shot](images-readme/Screenshot_7_delivery_app.jpg)
 
 Users can see all coupons (coupons will be used for
 discounts, users can apply them on the shopping cart page)
 
-![Screen Shot](images-readme/Screenshot_8.jpg)
+![Screen Shot](images-readme/Screenshot_8_delivery_app.jpg)
 
 One coupon the user can use one time!
 
@@ -167,7 +166,7 @@ npm start
 
 5. After that, you should see:
 
-![Screen Shot](images-readme/Screenshot_10.jpg)
+![Screen Shot](images-readme/Screenshot_10_delivery_app.jpg)
 
 6. It means, that your server is started.
 
@@ -181,7 +180,7 @@ npm start
 4. You should used utility of PostgreSQL such as pg_restore and restore data base with specified name.
 5. Restored database must consists 3 tables: 'shops', 'products', 'orders'.
 
-![Screen Shot](images-readme/Screenshot_11.jpg)
+![Screen Shot](images-readme/Screenshot_11_delivery_app.jpg)
 
 6. If you reached this, it means that your have done all steps well.
 
